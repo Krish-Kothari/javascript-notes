@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Mastery - Interactive Learning Platform</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🚀</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #FFD700;
+            --primary-dark: #FFA500;
+            --secondary: #1a1a2e;
+            --accent: #00D9FF;
+            --bg-dark: #0f0f1e;
+            --bg-card: #16213e;
+            --text-light: #e0e0e0;
+            --text-white: #ffffff;
+            --success: #00ff88;
+            --error: #ff3366;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 90%, rgba(0, 217, 255, 0.3) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+        
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 50px); }
+        }
+        
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 15, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); }
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-gold);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .stats {
+            display: flex;
+            gap: 2rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .stat-number {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Topic Grid */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .topic-category {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+        
+        .topic-category:nth-child(1) { animation-delay: 0.1s; }
+        .topic-category:nth-child(2) { animation-delay: 0.2s; }
+        .topic-category:nth-child(3) { animation-delay: 0.3s; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .topic-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-gold);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .topic-category:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .topic-category:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+        
+        .topic-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .topic-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-gold);
+            opacity: 0.1;
+            transition: left 0.4s ease;
+        }
+        
+        .topic-link:hover::before {
+            left: 0;
+        }
+        
+        .topic-link:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--primary);
+            transform: translateX(10px);
+            color: var(--primary);
+        }
+        
+        .topic-number {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            min-width: 40px;
+        }
+        
+        .topic-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .topic-arrow {
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .topic-link:hover .topic-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .modal-content {
+            background: var(--bg-dark);
+            border-radius: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem auto;
+            position: relative;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            animation: modalSlideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(100px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .modal-close {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 51, 102, 0.2);
+            border: 2px solid var(--error);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--error);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-close:hover {
+            background: var(--error);
+            color: white;
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        .modal-header {
+            background: var(--gradient-gold);
+            padding: 2.5rem;
+            border-radius: 28px 28px 0 0;
+            text-align: center;
+        }
+        
+        .modal-topic-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--secondary);
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-topic-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        
+        .modal-body {
+            padding: 3rem;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .code-section {
+            background: rgba(22, 33, 62, 0.5);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .code-section:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .status-icon {
+            font-size: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .wrong .section-title {
+            color: var(--error);
+        }
+        
+        .correct .section-title {
+            color: var(--success);
+        }
+        
+        pre {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        code {
+            color: #e0e0e0;
+        }
+        
+        .info-box {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            border-left: 4px solid;
+        }
+        
+        .note {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: #FFC107;
+        }
+        
+        .note strong {
+            color: #FFC107;
+        }
+        
+        .explanation {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--accent);
+        }
+        
+        .explanation strong {
+            color: var(--accent);
+        }
+        
+        /* Navigation Footer */
+        .nav-footer {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+        }
+        
+        .nav-footer h3 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .next-topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .next-topic-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid var(--primary);
+            padding: 1.2rem;
+            border-radius: 12px;
+            color: var(--text-white);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .next-topic-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .next-topic-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .next-topic-btn span {
+            position: relative;
+            z-index: 1;
+            display: block;
+        }
+        
+        .next-topic-btn .topic-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .next-topic-btn .topic-name {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        .next-topic-btn:hover {
+            color: var(--secondary);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+            border-color: transparent;
+        }
+        
+        .next-topic-btn:hover .topic-name {
+            opacity: 1;
+        }
+        
+        .back-btn {
+            display: block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(22, 33, 62, 0.3);
+            margin-top: 4rem;
+            border-top: 2px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        footer p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+        
+        .creator {
+            margin-top: 1rem;
+            font-family: 'Space Mono', monospace;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* CRAZY PARTICLE EFFECT */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            animation: float 3s infinite;
+            opacity: 0.6;
+            box-shadow: 0 0 20px var(--primary);
+        }
+        
+        /* GLITCH EFFECT */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        .glitch:hover {
+            animation: glitch 0.3s infinite;
+        }
+        
+        /* 3D CARD FLIP */
+        .topic-category {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .topic-category:hover {
+            transform: translateY(-10px) rotateY(5deg);
+        }
+        
+        /* RAINBOW BORDER ANIMATION */
+        @keyframes rainbow {
+            0% { border-color: #ff0000; }
+            17% { border-color: #ff7700; }
+            33% { border-color: #ffdd00; }
+            50% { border-color: #00ff00; }
+            67% { border-color: #0099ff; }
+            83% { border-color: #9900ff; }
+            100% { border-color: #ff0000; }
+        }
+        
+        .topic-link:hover {
+            animation: rainbow 2s linear infinite;
+        }
+        
+        /* TYPING EFFECT */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        
+        .typing-effect {
+            overflow: hidden;
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            animation: typing 2s steps(40) 1s both, blink 0.75s step-end infinite;
+        }
+        
+        /* SHAKE ANIMATION */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        .modal-close:hover {
+            animation: shake 0.5s ease, rotate 0.3s ease;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* NEON GLOW PULSE */
+        @keyframes neonPulse {
+            0%, 100% {
+                text-shadow: 
+                    0 0 7px var(--primary),
+                    0 0 10px var(--primary),
+                    0 0 21px var(--primary);
+            }
+            50% {
+                text-shadow: 
+                    0 0 10px var(--primary),
+                    0 0 20px var(--primary),
+                    0 0 42px var(--primary),
+                    0 0 82px var(--primary);
+            }
+        }
+        
+        .neon-text {
+            animation: neonPulse 1.5s ease-in-out infinite;
+        }
+        
+        /* MATRIX RAIN EFFECT */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.05;
+        }
+        
+        /* BOUNCE IN EFFECT */
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-45deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05) rotate(5deg);
+            }
+            70% {
+                transform: scale(0.9) rotate(-3deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        /* GRADIENT TEXT ANIMATION */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animated-gradient {
+            background: linear-gradient(270deg, #FFD700, #FFA500, #FF6347, #FFD700);
+            background-size: 600% 600%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        /* RIPPLE EFFECT */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .ripple-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple-effect::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .ripple-effect:active::after {
+            width: 300px;
+            height: 300px;
+            animation: ripple 0.6s ease-out;
+        }
+        
+        /* FLOATING ANIMATION */
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        /* SPARKLE EFFECT */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+        
+        /* ZOOM IN ELASTIC */
+        @keyframes zoomInElastic {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        .modal-content {
+            animation: zoomInElastic 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-gold);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-gold);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span>🚀</span>
+                <span>JS MASTERY</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="completedCount">0</span>
+                    <span>/25 Topics</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Master JavaScript</h1>
+            <p>From ES6 Fundamentals to Advanced Closures</p>
+            <span class="badge">✨ Interactive Learning Experience</span>
+        </section>
+        
+        <!-- Topics Grid -->
+        <div class="topics-grid">
+            <!-- ES5 vs ES6 Fundamentals -->
+            <div class="topic-category">
+                <div class="category-header">
+                    <span class="category-icon">🎯</span>
+                    <h2 class="category-title">ES5 vs ES6 Fundamentals</h2>
+                </div>
+                <ul class="topic-list">
+                    <li>
+                        <a href="#" class="topic-link" data-topic="0">
+                            <span class="topic-number">00</span>
+                            <span class="topic-name">Array Filter Method</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="1">
+                            <span class="topic-number">01</span>
+                            <span class="topic-name">Object Destructuring</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="2">
+                            <span class="topic-number">02</span>
+                            <span class="topic-name">Destructuring with Renaming</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="3">
+                            <span class="topic-number">03</span>
+                            <span class="topic-name">Default Values</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="4">
+                            <span class="topic-number">04</span>
+                            <span class="topic-name">Function Parameters Destructuring</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="5">
+                            <span class="topic-number">05</span>
+                            <span class="topic-name">Array Destructuring</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="6">
+                            <span class="topic-number">06</span>
+                            <span class="topic-name">Spread Syntax - Arrays</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="7">
+                            <span class="topic-number">07</span>
+                            <span class="topic-name">Spread Syntax - Objects</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="8">
+                            <span class="topic-number">08</span>
+                            <span class="topic-name">Spread in Function Calls</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="9">
+                            <span class="topic-number">09</span>
+                            <span class="topic-name">Rest Syntax - Arrays</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="10">
+                            <span class="topic-number">10</span>
+                            <span class="topic-name">Rest Syntax - Objects</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="11">
+                            <span class="topic-number">11</span>
+                            <span class="topic-name">Rest Parameters in Functions</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Array Methods -->
+            <div class="topic-category">
+                <div class="category-header">
+                    <span class="category-icon">🔧</span>
+                    <h2 class="category-title">Array Methods</h2>
+                </div>
+                <ul class="topic-list">
+                    <li>
+                        <a href="#" class="topic-link" data-topic="12">
+                            <span class="topic-number">12</span>
+                            <span class="topic-name">forEach Method</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="13">
+                            <span class="topic-number">13</span>
+                            <span class="topic-name">map Method</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="14">
+                            <span class="topic-number">14</span>
+                            <span class="topic-name">find Method</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="15">
+                            <span class="topic-number">15</span>
+                            <span class="topic-name">sort Method</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Advanced Concepts -->
+            <div class="topic-category">
+                <div class="category-header">
+                    <span class="category-icon">💡</span>
+                    <h2 class="category-title">Advanced Concepts</h2>
+                </div>
+                <ul class="topic-list">
+                    <li>
+                        <a href="#" class="topic-link" data-topic="16">
+                            <span class="topic-number">16</span>
+                            <span class="topic-name">Understanding Callbacks</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="17">
+                            <span class="topic-number">17</span>
+                            <span class="topic-name">Callbacks with Parameters</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="18">
+                            <span class="topic-number">18</span>
+                            <span class="topic-name">Higher-Order Functions</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="19">
+                            <span class="topic-number">19</span>
+                            <span class="topic-name">Building Custom Filter</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="20">
+                            <span class="topic-number">20</span>
+                            <span class="topic-name">Factory Functions - Greetings</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="21">
+                            <span class="topic-number">21</span>
+                            <span class="topic-name">Factory Pattern - Multipliers</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="22">
+                            <span class="topic-number">22</span>
+                            <span class="topic-name">Understanding Closures</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="23">
+                            <span class="topic-number">23</span>
+                            <span class="topic-name">Closure Deep Dive</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="topic-link" data-topic="24">
+                            <span class="topic-number">24</span>
+                            <span class="topic-name">Closure Complete Summary 🎓</span>
+                            <span class="topic-arrow">→</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal" id="topicModal">
+        <div class="modal-close" onclick="closeModal()">✕</div>
+        <div class="modal-content" id="modalContent">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>🎯 Advanced JavaScript Concepts | Practice Daily! 💪</p>
+        <p class="creator">Created BY Aalekh Maheshwari with ❤️</p>
+    </footer>
+    
+    <script>
+        // Complete topic data with all 25 topics
+        const topics = {
+            0: {
+                title: "Array Filter Method",
+                wrong: `// WRONG - Brackets instead of parentheses
+filter[1,2,3,4,5], x => x % 2 == 0
+
+// WRONG - Arrow misplaced
+let arr = [10,20,30,50,70];
+arr.filter(x) => {
+    if ( x > 10 ) {
+        return true;
+    }
+}`,
+                correct: `// Correct way
+let numbers = [1, 2, 3, 4, 5];
+let evens = numbers.filter(x => x % 2 == 0);
+console.log(evens); // [2, 4]
+
+// BEST WAY - Simplified
+let arr = [10, 20, 30, 50, 70];
+let result = arr.filter(x => x > 10);
+console.log(result); // [20, 30, 50, 70]
+
+// Filtering objects
+let players = [
+    { name: "messi", isGoat: false },
+    { name: "ronaldo", isGoat: true }
+];
+let goats = players.filter(x => x.isGoat);`,
+                note: "filter() uses parentheses (), not brackets []. No if-else needed for simple conditions!",
+                explanation: "🇮🇳 Hinglish: filter() array ke har element pe callback chalata hai. True return kare toh element result mein aata hai.\n\n🇬🇧 English: filter() runs callback on each element. If true, element is included."
+            },
+            1: {
+                title: "Object Destructuring",
+                wrong: `let user = {
+    id: 7,
+    name: "ronaldo",
+    age: 40
+}
+
+// Old way - manually extract
+let id = user.id;
+let name = user.name;
+let age = user.age;`,
+                correct: `let user = {
+    id: 7,
+    name: "ronaldo",
+    age: 40
+}
+
+// Destructuring - one line!
+let { id, name, age } = user;
+
+console.log(id);    // 7
+console.log(name);  // "ronaldo"
+console.log(age);   // 40`,
+                note: "Old way is repetitive. Destructuring extracts multiple properties in one line!",
+                explanation: "🇮🇳 Hinglish: Destructuring se ek line mein multiple properties extract kar sakte ho. Clean aur readable!\n\n🇬🇧 English: Destructuring extracts multiple properties in one line. Clean and readable!"
+            },
+            2: {
+                title: "Destructuring with Renaming",
+                wrong: `let user = { name: "ronaldo", age: 40 }
+
+// Manual rename
+let username = user.name;
+let goatAge = user.age;`,
+                correct: `let user = { name: "ronaldo", age: 40 }
+
+// Rename during destructuring
+let { name: username, age: goatAge } = user;
+
+console.log(username);  // "ronaldo"
+console.log(goatAge);   // 40`,
+                note: "Syntax: { propertyName: newName } = object",
+                explanation: "🇮🇳 Hinglish: { name: username } - name property ko username mein store karo!\n\n🇬🇧 English: { name: username } - store name property as username!"
+            },
+            3: {
+                title: "Default Values in Destructuring",
+                wrong: `let user = { name: "ronaldo", age: 40 }
+
+// Ternary check for undefined
+let country = user.country === undefined ? "Portugal" : user.country;`,
+                correct: `let user = { name: "ronaldo", age: 40 }
+
+// Default value
+let { country = "Portugal" } = user;
+console.log(country); // "Portugal"
+
+// Rename + Default
+let { country: myCountry = "Portugal" } = user;
+console.log(myCountry); // "Portugal"`,
+                note: "If property doesn't exist, default value is used!",
+                explanation: "🇮🇳 Hinglish: Agar property nahi hai toh default value use hogi!\n\n🇬🇧 English: If property doesn't exist, default value is used!"
+            },
+            4: {
+                title: "Function Parameter Destructuring",
+                wrong: `function greet(obj) {
+    let name = obj.name;
+    let age = obj.age;
+    console.log(\`Name: \${name}\`);
+}`,
+                correct: `// Destructure in parameters
+function greet({name, age}) {
+    console.log(\`Name: \${name}, Age: \${age}\`);
+}
+
+let user = { name: "ronaldo", age: 40 };
+greet(user); // Name: ronaldo, Age: 40`,
+                note: "Destructure directly in function definition!",
+                explanation: "🇮🇳 Hinglish: Function definition mein hi destructure kar sakte ho!\n\n🇬🇧 English: Destructure directly in function parameters!"
+            },
+            5: {
+                title: "Array Destructuring",
+                wrong: `let names = ["Neymar", "Messi", "Andrew"];
+
+let prince = names[0];
+let humble = names[1];
+let spiderman = names[2];`,
+                correct: `let names = ["Neymar", "Messi", "Andrew"];
+
+// Array destructuring
+let [prince, humble, spiderman] = names;
+
+console.log(prince);  // "Neymar"
+console.log(humble);  // "Messi"
+
+// Skip elements with comma
+let [first, , third] = names;
+console.log(first);   // "Neymar"
+console.log(third);   // "Andrew"`,
+                note: "Position-based extraction! Use commas to skip elements.",
+                explanation: "🇮🇳 Hinglish: Array mein position ke basis pe extract hota hai!\n\n🇬🇧 English: Array destructuring is position-based!"
+            },
+            6: {
+                title: "Spread Syntax - Arrays",
+                wrong: `let arr1 = [10, 20, 30];
+let arr2 = [100, 200];
+
+// Manual loop to merge
+for (let item of arr1) {
+    arr2.push(item);
+}`,
+                correct: `let arr1 = [10, 20, 30];
+let arr2 = [100, 200];
+
+// Spread operator
+let combined = [...arr2, ...arr1, 900];
+console.log(combined); 
+// [100, 200, 10, 20, 30, 900]
+
+// Copying array
+let copy = [...arr1];
+console.log(copy); // [10, 20, 30]`,
+                note: "...arr expands array into individual elements!",
+                explanation: "🇮🇳 Hinglish: ...arr1 matlab array ke saare elements ko individually nikal diya!\n\n🇬🇧 English: ...arr1 expands array into individual elements!"
+            },
+            7: {
+                title: "Spread Syntax - Objects",
+                wrong: `let obj1 = { name: "Ronaldo", isGoat: true }
+
+// Manual property copy
+let obj2 = {
+    country: "portugal",
+    name: obj1.name,
+    isGoat: obj1.isGoat
+}`,
+                correct: `let obj1 = { name: "Ronaldo", isGoat: true }
+
+// Spread operator
+let obj2 = {
+    country: "portugal",
+    ...obj1,
+    name: "Ronnie"  // Override
+}
+
+console.log(obj2);
+// { country: "portugal", name: "Ronnie", isGoat: true }`,
+                note: "Order matters! Later values override earlier ones.",
+                explanation: "🇮🇳 Hinglish: Jo baad mein aata hai woh override karta hai!\n\n🇬🇧 English: Later values override earlier ones!"
+            },
+            8: {
+                title: "Spread in Function Calls",
+                wrong: `function max(a, b, c, d) {
+    return Math.max(a, b, c, d);
+}
+
+let arr = [10, 20, 50, 70];
+max(arr[0], arr[1], arr[2], arr[3]);`,
+                correct: `function max(a, b, c, d) {
+    return Math.max(a, b, c, d);
+}
+
+let arr = [10, 20, 50, 70];
+let result = max(...arr);
+console.log(result); // 70
+
+// ...arr expands to: max(10, 20, 50, 70)`,
+                note: "...arr converts array to individual arguments!",
+                explanation: "🇮🇳 Hinglish: ...arr array ko individual arguments mein convert kar deta hai!\n\n🇬🇧 English: ...arr converts array to individual arguments!"
+            },
+            9: {
+                title: "Rest Syntax - Arrays",
+                wrong: `let arr = [100, 200, 300];
+
+let first = arr[0];
+let rest = arr.slice(1);`,
+                correct: `let arr = [100, 200, 300];
+
+// Rest operator
+let [first, ...rest] = arr;
+
+console.log(first); // 100
+console.log(rest);  // [200, 300]`,
+                note: "Spread expands, Rest collects! Same syntax, different context.",
+                explanation: "🇮🇳 Hinglish: Spread expand karta hai, Rest collect karta hai!\n\n🇬🇧 English: Spread expands, Rest collects!"
+            },
+            10: {
+                title: "Rest Syntax - Objects",
+                wrong: `let obj = {
+    name: "Ronaldo",
+    age: 40,
+    isGoat: true
+}
+
+let name = obj.name;
+let rest = { age: obj.age, isGoat: obj.isGoat };`,
+                correct: `let obj = {
+    name: "Ronaldo",
+    age: 40,
+    isGoat: true
+}
+
+// Rest operator
+let { name, ...rest } = obj;
+
+console.log(name); // "Ronaldo"
+console.log(rest); // { age: 40, isGoat: true }`,
+                note: "Extract one, collect the rest in a new object!",
+                explanation: "🇮🇳 Hinglish: Ek property alag, baaki saare rest mein!\n\n🇬🇧 English: Extract one, collect rest in new object!"
+            },
+            11: {
+                title: "Rest Parameters in Functions",
+                wrong: `function sum() {
+    // arguments object (not real array)
+    let total = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        total += arguments[i];
+    }
+    return total;
+}`,
+                correct: `// Rest parameter
+let sum = (...rest) => {
+    console.log(rest); // Real array!
+    return rest.reduce((acc, num) => acc + num, 0);
+}
+
+console.log(sum(1));           // 1
+console.log(sum(10, 20, 30));  // 60
+
+// Mixed parameters
+let greetAll = (greeting, ...names) => {
+    names.forEach(name => {
+        console.log(\`\${greeting}, \${name}!\`);
+    });
+}`,
+                note: "Rest parameter creates a REAL array! Must be last parameter.",
+                explanation: "🇮🇳 Hinglish: Rest parameter real array deta hai! Hamesha last mein hona chahiye.\n\n🇬🇧 English: Rest parameter gives real array! Must be last parameter."
+            },
+            12: {
+                title: "forEach Method",
+                wrong: `let arr = [10, 30, 50, 70];
+
+// Manual loop
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+}`,
+                correct: `let arr = [10, 30, 50, 70];
+
+// forEach method
+arr.forEach((element) => {
+    console.log(element);
+});
+
+// With index and array
+arr.forEach((element, index, array) => {
+    console.log(\`Index \${index}: \${element}\`);
+});
+
+// Custom forEach
+let customForEach = (arr, callback) => {
+    for (let i = 0; i < arr.length; i++) {
+        callback(arr[i], i, arr);
+    }
+};`,
+                note: "forEach runs callback on each element. No return value!",
+                explanation: "🇮🇳 Hinglish: forEach callback ko har element pe chalata hai. Return value nahi hota!\n\n🇬🇧 English: forEach runs callback on each element. No return value!"
+            },
+            13: {
+                title: "map Method",
+                wrong: `let numbers = [10, 20, 30];
+let areas = [];
+
+for (let i = 0; i < numbers.length; i++) {
+    areas.push(3.14 * numbers[i] * numbers[i]);
+}`,
+                correct: `let numbers = [10, 20, 30];
+
+// map method
+let areas = numbers.map((r) => {
+    return 3.14 * r * r;
+});
+
+// Shorter
+let areas2 = numbers.map(r => 3.14 * r * r);
+
+// Extract names from objects
+let players = [
+    {name: "messi"},
+    {name: "ronnie"}
+];
+let names = players.map(p => p.name);
+console.log(names); // ["messi", "ronnie"]`,
+                note: "map creates NEW array with transformed elements!",
+                explanation: "🇮🇳 Hinglish: map naya array return karta hai jisme har element transform ho chuka hota hai!\n\n🇬🇧 English: map returns new array with transformed elements!"
+            },
+            14: {
+                title: "find Method",
+                wrong: `let numbers = [10, 20, 11, 7, 9];
+let result;
+
+for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] < 8) {
+        result = numbers[i];
+        break;
+    }
+}`,
+                correct: `let numbers = [10, 20, 11, 7, 9];
+
+// find method
+let result = numbers.find(x => x < 8);
+console.log(result); // 7 (first match)
+
+// Find in objects
+let players = [
+    {name: "messi", isOwner: false},
+    {name: "ronnie", isOwner: true}
+];
+let owner = players.find(p => p.isOwner);
+console.log(owner); // {name: "ronnie", isOwner: true}
+
+// Not found returns undefined
+let notFound = numbers.find(x => x > 100);
+console.log(notFound); // undefined`,
+                note: "find returns FIRST matching element or undefined!",
+                explanation: "🇮🇳 Hinglish: find pehla matching element return karta hai ya undefined!\n\n🇬🇧 English: find returns first matching element or undefined!"
+            },
+            15: {
+                title: "sort Method",
+                wrong: `let numbers = [1, 2, 10, 20, 3, 7, 60];
+numbers.sort();
+console.log(numbers);
+// [1, 10, 2, 20, 3, 60, 7] ❌ Wrong!
+
+// Why? Default sort converts to STRING
+// Compares digit-by-digit: "1" < "2"`,
+                correct: `let numbers = [1, 2, 10, 20, 3, 7, 60];
+
+// Correct numeric sort
+numbers.sort((a, b) => a - b);
+console.log(numbers);
+// [1, 2, 3, 7, 10, 20, 60] ✅
+
+// Descending
+numbers.sort((a, b) => b - a);
+// [60, 20, 10, 7, 3, 2, 1]
+
+// Sort objects by property
+let players = [
+    {name: "Ronaldo", goals: 900},
+    {name: "Messi", goals: 850}
+];
+players.sort((a, b) => b.goals - a.goals);
+
+// ⚠️ sort() modifies original array!`,
+                note: "WITHOUT comparator: string conversion, digit-by-digit! WITH comparator: proper sorting. Always use (a, b) => a - b for numbers!",
+                explanation: "🇮🇳 Hinglish: BINA comparator ke sab string ban jata hai! Numbers ke liye HAMESHA (a, b) => a - b use karo!\n\n🇬🇧 English: WITHOUT comparator everything becomes string! ALWAYS use (a, b) => a - b for numbers!"
+            },
+            16: {
+                title: "Understanding Callbacks",
+                wrong: `// MISTAKE: Function ko call kar diya
+let fn = (x) => { x(); }
+let greet = () => {
+    console.log("Hello, I am Ronaldo!");
+}
+
+// ❌ WRONG
+fn(greet());  // Error! executed immediately
+
+// MISTAKE 2: Primitive value
+let a = 10;
+fn(a);  // Error! Can't call number`,
+                correct: `let fn = (callbackFunction) => {
+    console.log("About to execute...");
+    callbackFunction();  // Call here
+}
+
+let greet = () => {
+    console.log("Hello, I am Ronaldo!");
+}
+
+// ✅ Correct - pass reference
+fn(greet);  // No parentheses!
+
+// Or anonymous function
+fn(() => {
+    console.log("Hello!");
+});
+
+// Output:
+// About to execute...
+// Hello, I am Ronaldo!`,
+                note: "greet() = execution, greet = reference. Pass reference, not result!",
+                explanation: "🇮🇳 Hinglish: Callback ek function hai jo dusre function ko argument mein pass hota hai. greet aur greet() mein fark hai!\n\n🇬🇧 English: Callback is a function passed to another function. greet vs greet() - reference vs execution!"
+            },
+            17: {
+                title: "Callbacks with Parameters",
+                wrong: `// Confusing
+let fnc = (logic) => {
+    let c = 15;
+    let d = 26;
+    logic(c, d);
+}
+
+fnc((c, d) => {
+    console.log(c + d);
+});
+// Output: 41
+// But WHY?`,
+                correct: `// Clear understanding
+let processNumbers = (callback) => {
+    let num1 = 15;
+    let num2 = 26;
+    
+    console.log("Numbers ready:", num1, num2);
+    callback(num1, num2);  // Pass to callback
+}
+
+// Addition
+processNumbers((a, b) => {
+    console.log("Sum:", a + b);  // 41
+});
+
+// Multiplication
+processNumbers((a, b) => {
+    console.log("Product:", a * b);  // 390
+});`,
+                note: "Main function provides data, callback decides what to do with it!",
+                explanation: "🇮🇳 Hinglish: Main function data provide karta hai, callback decide karta hai kya karna hai!\n\n🇬🇧 English: Main function provides data, callback decides what to do!"
+            },
+            18: {
+                title: "Higher-Order Functions",
+                wrong: `let radius = [10, 20, 70];
+
+// Separate function for each operation
+function calculateArea() {
+    let output = [];
+    for (let i = 0; i < radius.length; i++) {
+        output.push(3.14 * radius[i] * radius[i]);
+    }
+    return output;
+}
+
+function calculateCircumference() {
+    let output = [];
+    for (let i = 0; i < radius.length; i++) {
+        output.push(2 * 3.14 * radius[i]);
+    }
+    return output;
+}
+// Too repetitive!`,
+                correct: `// One reusable function
+let calculate = (radiusArray, logic) => {
+    let output = [];
+    for (let i = 0; i < radiusArray.length; i++) {
+        output.push(logic(radiusArray[i]));
+    }
+    return output;
+}
+
+let radius = [10, 20, 70];
+
+// Area
+console.log(calculate(radius, r => 3.14 * r * r));
+// [314, 1256, 15386]
+
+// Circumference
+console.log(calculate(radius, r => 2 * 3.14 * r));
+// [62.8, 125.6, 439.6]
+
+// Diameter
+console.log(calculate(radius, r => 2 * r));
+// [20, 40, 140]`,
+                note: "Higher-Order Function accepts or returns other functions!",
+                explanation: "🇮🇳 Hinglish: Higher-Order Function dusre function ko accept karta hai ya return karta hai!\n\n🇬🇧 English: Higher-Order Function accepts or returns functions!"
+            },
+            19: {
+                title: "Building Custom Filter",
+                wrong: `let arr = [10, 20, 30, 40, 5];
+
+// Wrong: undefined check
+let filter = (arr, logic) => {
+    let outputs = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (logic(arr[i]) !== undefined) {
+            outputs.push(arr[i]);
+        }
+    }
+    return outputs;
+}`,
+                correct: `// Correct filter
+let customFilter = (arr, testFn) => {
+    let result = [];
+    for (let item of arr) {
+        if (testFn(item)) {  // Just check true/false
+            result.push(item);
+        }
+    }
+    return result;
+}
+
+let nums = [10, 20, 30, 5, 1, 7];
+
+// Even
+console.log(customFilter(nums, x => x % 2 === 0));
+// [10, 20, 30]
+
+// Greater than 10
+console.log(customFilter(nums, x => x > 10));
+// [20, 30]`,
+                note: "Test function returns true/false, that's it! No undefined check needed.",
+                explanation: "🇮🇳 Hinglish: Test function true/false return kare, bas! Agar true toh result mein add karo.\n\n🇬🇧 English: Test function returns true/false! If true, include in result."
+            },
+            20: {
+                title: "Factory Functions - Greetings",
+                wrong: `// Separate function for each greeting
+function greetHello(name) {
+    return "Hello, " + name;
+}
+
+function greetHola(name) {
+    return "Hola, " + name;
+}
+
+function greetNamaste(name) {
+    return "Namaste, " + name;
+}
+// Too many functions!`,
+                correct: `// Factory function
+let createGreeting = (prefix) => {
+    return (name) => {
+        return \`\${prefix}, my name is \${name}\`;
+    }
+}
+
+let greetHello = createGreeting("Hello");
+let greetHola = createGreeting("Hola");
+let greetNamaste = createGreeting("Namaste");
+
+console.log(greetHello("Ronaldo"));
+// Hello, my name is Ronaldo
+
+console.log(greetHola("Messi"));
+// Hola, my name is Messi
+
+console.log(greetNamaste("Virat"));
+// Namaste, my name is Virat`,
+                note: "Factory creates customized functions! Each remembers its prefix (closure).",
+                explanation: "🇮🇳 Hinglish: Factory function dusre functions banata hai. Har function apna prefix yaad rakhta hai!\n\n🇬🇧 English: Factory creates functions. Each remembers its prefix (closure)!"
+            },
+            21: {
+                title: "Factory Pattern - Multipliers",
+                wrong: `// Limited options
+let createMultiplier = (type) => {
+    if (type === "double") return double;
+    if (type === "triple") return triple;
+}
+
+let double = (n) => n * 2;
+let triple = (n) => n * 3;
+// What if we need times10?`,
+                correct: `// Dynamic factory
+let createMultiplier = (multiplier) => {
+    return (number) => {
+        return number * multiplier;
+    }
+}
+
+let double = createMultiplier(2);
+let triple = createMultiplier(3);
+let times10 = createMultiplier(10);
+let times100 = createMultiplier(100);
+
+console.log(double(5));    // 10
+console.log(triple(5));    // 15
+console.log(times10(5));   // 50
+console.log(times100(5));  // 500`,
+                note: "Unlimited multipliers! Each function remembers its multiplier.",
+                explanation: "🇮🇳 Hinglish: Koi bhi multiplier create kar sakte ho! Har function apna multiplier yaad rakhta hai!\n\n🇬🇧 English: Create any multiplier! Each function remembers its multiplier!"
+            },
+            22: {
+                title: "Understanding Closures",
+                wrong: `// Global variable - unsafe!
+let count = 1;
+
+function counter() {
+    return count++;
+}
+
+console.log(counter());  // 1
+console.log(counter());  // 2
+
+// DANGER! Anyone can change it
+count = 100;
+console.log(counter());  // 100 (unexpected!)
+
+count = "hacked";
+console.log(counter());  // "hacked1" (error!)`,
+                correct: `// Closure - count is PRIVATE
+function createCounter() {
+    let count = 0;  // Private!
+    
+    return function() {
+        count++;
+        return count;
+    }
+}
+
+let counter = createCounter();
+
+console.log(counter());  // 1
+console.log(counter());  // 2
+console.log(counter());  // 3
+
+// count not accessible - SAFE!
+// console.log(count);  // Error
+
+// Multiple independent counters
+let counter1 = createCounter();
+let counter2 = createCounter();
+
+console.log(counter1());  // 1
+console.log(counter2());  // 1 (separate!)`,
+                note: "Closure provides data privacy! Each closure is independent.",
+                explanation: "🇮🇳 Hinglish: Closure ka magic: inner function parent ke variables ko access kar sakta hai, chahe parent execute ho chuka ho!\n\n🇬🇧 English: Closure magic: inner function accesses parent variables even after parent finishes!"
+            },
+            23: {
+                title: "Closure Deep Dive",
+                wrong: `// Mystery
+function counter() {
+    let count = 0;
+    return () => {
+        count++;
+        console.log(count);
+    }
+}
+
+let callFunc = counter();
+callFunc();  // 1
+callFunc();  // 2
+callFunc();  // 3
+
+// Questions:
+// 1. counter() executed, why isn't count destroyed?
+// 2. How does callFunc access count?
+// 3. Where is count stored?`,
+                correct: `// CLOSURE = Function + Lexical Environment
+
+function counter() {
+    let count = 0;  // Saved in closure
+    
+    return () => {
+        count++;
+        console.log(count);
+    }
+}
+
+// When counter() executes:
+// 1. count = 0 created
+// 2. Arrow function created
+// 3. Returned WITH count (CLOSURE!)
+
+let callFunc = counter();
+
+// callFunc = {
+//   function: () => {...},
+//   environment: { count: 0 }
+// }
+
+callFunc();  // count = 1
+callFunc();  // count = 2
+
+// count not destroyed because
+// inner function "closed over" it!
+
+/*
+VISUAL:
+counter() executes
+    ↓
+Creates: let count = 0
+Creates: () => { count++ }
+    ↓
+Returns function WITH count
+    ↓
+callFunc = [Function + {count: 0}]
+           ↑ This is CLOSURE!
+*/`,
+                note: "Closure = Function + References to surrounding state!",
+                explanation: "🇮🇳 Hinglish: Inner function return hote waqt apne surrounding variables ka reference saath le jaata hai!\n\n🇬🇧 English: Inner function takes references to surrounding variables when returned!"
+            },
+            24: {
+                title: "Closure Complete Summary 🎓",
+                wrong: `// This topic is pure learning - no "wrong" way!
+// But here's what beginners misunderstand:
+
+// ❌ Thinking closure is just "function inside function"
+// ❌ Not understanding why parent variables stay alive
+// ❌ Confusing closure with scope
+// ❌ Not seeing practical use cases`,
+                correct: `/*
+CLOSURE DEFINITION:
+"A closure is a function bundled together 
+ with references to its surrounding state."
+
+WHEN IS CLOSURE CREATED?
+When inner function uses parent's variables.
+*/
+
+function outer() {
+    let secret = "I am private";
+    
+    return function inner() {
+        console.log(secret);  // Access!
+    }
+}
+
+let reveal = outer();
+reveal();  // "I am private"
+
+/*
+WHY USE CLOSURES?
+1. DATA PRIVACY
+2. STATE MAINTENANCE
+3. FACTORY FUNCTIONS
+4. EVENT HANDLERS
+5. ENCAPSULATION
+*/
+
+// Example: Bank Account
+function createAccount(balance) {
+    return {
+        deposit: (amt) => balance += amt,
+        withdraw: (amt) => {
+            if (amt <= balance) balance -= amt;
+            return balance;
+        },
+        getBalance: () => balance
+    }
+}
+
+let account = createAccount(1000);
+console.log(account.deposit(500));   // 1500
+console.log(account.withdraw(200));  // 1300
+// balance is private!
+
+/*
+KEY POINTS:
+✅ Closure = Function + Lexical Environment
+✅ Inner function accesses parent variables
+✅ Parent variables stay alive
+✅ Each call creates separate closure
+✅ Perfect for data privacy
+
+ONE-LINE DEFINITION:
+"Closure is a function that has access 
+ to its lexical scope!" 🚀
+*/`,
+                note: "Closure isn't just nested functions - it's when inner function USES parent variables!",
+                explanation: "🇮🇳 Hinglish: Closure tab banta hai jab inner function parent ke variables ko USE kare!\n\n🇬🇧 English: Closure is created when inner function USES parent variables!"
+            }
+        };
+        
+        // Initialize
+        let completedTopics = new Set();
+        let currentTopic = null;
+        
+        // Topic names for navigation
+        const topicNames = [
+            "Array Filter Method",
+            "Object Destructuring",
+            "Destructuring with Renaming",
+            "Default Values",
+            "Function Parameters Destructuring",
+            "Array Destructuring",
+            "Spread Syntax - Arrays",
+            "Spread Syntax - Objects",
+            "Spread in Function Calls",
+            "Rest Syntax - Arrays",
+            "Rest Syntax - Objects",
+            "Rest Parameters",
+            "forEach Method",
+            "map Method",
+            "find Method",
+            "sort Method",
+            "Understanding Callbacks",
+            "Callbacks with Parameters",
+            "Higher-Order Functions",
+            "Building Custom Filter",
+            "Factory Functions - Greetings",
+            "Factory Pattern - Multipliers",
+            "Understanding Closures",
+            "Closure Deep Dive",
+            "Closure Complete Summary 🎓"
+        ];
+        
+        // Create floating particles
+        function createParticles() {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+        
+        // Matrix rain effect
+        function createMatrixRain() {
+            const canvas = document.createElement('canvas');
+            canvas.className = 'matrix-bg';
+            document.body.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const chars = '01';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(15, 15, 30, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#FFD700';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 33);
+        }
+        
+        // Add sparkles to elements
+        function addSparkles(element) {
+            for (let i = 0; i < 3; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 1.5 + 's';
+                element.style.position = 'relative';
+                element.appendChild(sparkle);
+            }
+        }
+        
+        // Update progress
+        function updateProgress() {
+            const percent = (completedTopics.size / 25) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percent + '%';
+            document.getElementById('completedCount').textContent = completedTopics.size;
+            
+            // Celebration when all completed!
+            if (completedTopics.size === 25) {
+                celebrate();
+            }
+        }
+        
+        // Celebration animation
+        function celebrate() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.background = ['#FFD700', '#FF6347', '#00D9FF', '#00ff88'][Math.floor(Math.random() * 4)];
+                    confetti.style.zIndex = '10000';
+                    confetti.style.animation = 'float 3s ease-out forwards';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+        
+        // Open modal with CRAZY animations
+        function openModal(topicNum) {
+            currentTopic = topicNum;
+            const topic = topics[topicNum];
+            
+            if (!topic) {
+                alert('🚀 This topic is being prepared! Coming soon...');
+                return;
+            }
+            
+            const modal = document.getElementById('topicModal');
+            const content = document.getElementById('modalContent');
+            
+            // Add bounce-in class
+            modal.classList.add('active');
+            content.classList.add('bounce-in');
+            
+            content.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-topic-number neon-text">Topic ${String(topicNum).padStart(2, '0')}</div>
+                    <h2 class="modal-topic-title animated-gradient">${topic.title}</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="comparison-grid">
+                        <div class="code-section wrong">
+                            <div class="section-header">
+                                <span class="status-icon">❌</span>
+                                <h3 class="section-title glitch">Wrong Syntax</h3>
+                            </div>
+                            <pre><code>${escapeHtml(topic.wrong)}</code></pre>
+                            <div class="info-box note ripple-effect">
+                                <strong>Problem:</strong> ${topic.note}
+                            </div>
+                        </div>
+                        <div class="code-section correct">
+                            <div class="section-header">
+                                <span class="status-icon">✅</span>
+                                <h3 class="section-title glitch">Correct Syntax</h3>
+                            </div>
+                            <pre><code>${escapeHtml(topic.correct)}</code></pre>
+                            <div class="info-box explanation ripple-effect">
+                                ${topic.explanation.replace(/\n/g, '<br>')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-footer">
+                        <h3 class="neon-text">🎓 What's Next?</h3>
+                        <div class="next-topics-grid" id="nextTopics"></div>
+                        <a href="#" class="back-btn ripple-effect" onclick="closeModal(); return false;">📚 Back to Index</a>
+                    </div>
+                </div>
+            `;
+            
+            // Add next topics with names!
+            const nextTopicsDiv = document.getElementById('nextTopics');
+            for (let i = 1; i <= 3; i++) {
+                const nextNum = topicNum + i;
+                if (nextNum <= 24) {
+                    const btn = document.createElement('div');
+                    btn.className = 'next-topic-btn ripple-effect';
+                    btn.innerHTML = `
+                        <span class="topic-num">Topic ${String(nextNum).padStart(2, '0')}</span>
+                        <span class="topic-name">${topicNames[nextNum]}</span>
+                    `;
+                    btn.onclick = () => {
+                        content.classList.remove('bounce-in');
+                        setTimeout(() => openModal(nextNum), 100);
+                    };
+                    nextTopicsDiv.appendChild(btn);
+                    
+                    // Add sparkles to buttons
+                    addSparkles(btn);
+                }
+            }
+            
+            document.body.style.overflow = 'hidden';
+            
+            // Mark as completed
+            completedTopics.add(topicNum);
+            updateProgress();
+            
+            // Remove bounce class after animation
+            setTimeout(() => content.classList.remove('bounce-in'), 600);
+        }
+        
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('topicModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Initialize effects on load
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            createMatrixRain();
+            
+            // Add hover effects to all topic links
+            document.querySelectorAll('.topic-link').forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    link.style.transform = 'translateX(10px) scale(1.02)';
+                });
+                link.addEventListener('mouseleave', () => {
+                    link.style.transform = '';
+                });
+            });
+        });
+        
+        // Event listeners
+        document.querySelectorAll('.topic-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const topicNum = parseInt(link.dataset.topic);
+                openModal(topicNum);
+            });
+        });
+        
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+        
+        // Close on outside click
+        document.getElementById('topicModal').addEventListener('click', (e) => {
+            if (e.target.id === 'topicModal') closeModal();
+        });
+    </script>
+</body>
+</html>
